@@ -1,8 +1,8 @@
 import React from 'react';
-import { OwnPanGesture } from './src'
+import { PeekScroll } from './src'
 
 export default function App() {
   return ( 
-    <OwnPanGesture />
+    <PeekScroll />
   )
 }
