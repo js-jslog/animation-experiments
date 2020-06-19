@@ -1,5 +1,7 @@
-import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState } from "react"
+import { Button, StyleSheet, View } from "react-native"
+import Animated, { multiply } from "react-native-reanimated"
+import {useTimingTransition} from "react-native-redash"
 
 const styles = StyleSheet.create({
   page: {
@@ -10,25 +12,32 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   outer: {
-    width: 200,
     height: 200,
+    width: 200,
     backgroundColor: 'black'
   },
   inner: {
     ...StyleSheet.absoluteFillObject,
-    left: -100,
-    width: 200,
+    width: 100,
     height: 200,
     backgroundColor: 'yellow'
   }
 })
+
 export const PeekScroll = () => {
+  const [ left, setLeft ] = useState<0 | 1>(0)
+
+  const transitionSlide = multiply(useTimingTransition(left, { duration: 50 }), 100)
+
   return (
     <View style={styles.page}>
       <View style={styles.outer}>
-        <View style={styles.inner}>
-        </View>
+        <Animated.View style={[styles.inner, {
+            translateX: transitionSlide
+          }]}>
+        </Animated.View>
       </View>
+      <Button title='test' onPress={(): void => { left === 0 ? setLeft(1) : setLeft(0) }} />
     </View>
   );
 };
