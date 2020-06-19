@@ -1,8 +1,8 @@
 import React from 'react';
-import { PanGesture } from './src'
+import { OwnPanGesture } from './src'
 
 export default function App() {
   return ( 
-    <PanGesture />
+    <OwnPanGesture />
   )
 }
