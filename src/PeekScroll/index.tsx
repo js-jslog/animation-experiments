@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
   },
   inner: {
     ...StyleSheet.absoluteFillObject,
-    left: -100,
-    width: 200,
+    left: -300,
+    width: 400,
     height: 200,
     backgroundColor: 'yellow'
   }
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 export const PeekScroll = () => {
   const [ left, setLeft ] = useState<0 | 1>(0)
 
-  const transitionSlide = multiply(useTimingTransition(left, {duration: 100}), 200)
+  const transitionSlide = multiply(useTimingTransition(left, {duration: 100}), 400)
 
   return (
     <View style={styles.page}>
