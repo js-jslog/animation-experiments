@@ -14,11 +14,13 @@ const styles = StyleSheet.create({
   outer: {
     height: 200,
     width: 200,
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    overflow: 'hidden'
   },
   inner: {
     ...StyleSheet.absoluteFillObject,
-    width: 100,
+    left: -100,
+    width: 200,
     height: 200,
     backgroundColor: 'yellow'
   }
@@ -27,13 +29,15 @@ const styles = StyleSheet.create({
 export const PeekScroll = () => {
   const [ left, setLeft ] = useState<0 | 1>(0)
 
-  const transitionSlide = multiply(useTimingTransition(left, { duration: 50 }), 100)
+  const transitionSlide = multiply(useTimingTransition(left, {duration: 100}), 200)
 
   return (
     <View style={styles.page}>
       <View style={styles.outer}>
         <Animated.View style={[styles.inner, {
-            translateX: transitionSlide
+            transform: [
+              { translateX: transitionSlide },
+            ],
           }]}>
         </Animated.View>
       </View>
