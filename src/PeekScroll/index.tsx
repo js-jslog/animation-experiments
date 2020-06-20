@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Button, StyleSheet, View } from "react-native"
-import Animated, { Value, multiply } from "react-native-reanimated"
+import Animated, { Value, multiply, useCode, cond, eq, set, add } from "react-native-reanimated"
 import {onGestureEvent, useTimingTransition} from "react-native-redash"
 import {State, PanGestureHandler} from "react-native-gesture-handler"
 
@@ -29,11 +29,18 @@ const styles = StyleSheet.create({
 
 export const PeekScroll = () => {
   const state = new Value(State.UNDETERMINED);
+  const offset = new Value(0)
   const translationX = new Value(0);
   const gestureHandler = onGestureEvent({
     state,
     translationX,
   });
+
+  useCode(() => [
+    cond(eq(state, State.END), [
+      set(offset, add(offset, translationX))
+    ])
+  ],[state, offset])
 
   const [ left, setLeft ] = useState<0 | 1>(0)
 
@@ -45,7 +52,7 @@ export const PeekScroll = () => {
         <Animated.View style={styles.outer}>
           <Animated.View style={[styles.inner, {
             transform: [
-              { translateX: translationX },
+              { translateX: add(translationX, offset) },
             ],
           }]}>
           </Animated.View>
