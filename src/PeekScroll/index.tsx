@@ -35,6 +35,7 @@ export const PeekScroll = () => {
     state,
     translationX,
   });
+  const peekPosition = add(offset, translationX)
 
   useCode(() => [
     cond(eq(state, State.END), [
@@ -52,7 +53,7 @@ export const PeekScroll = () => {
         <Animated.View style={styles.outer}>
           <Animated.View style={[styles.inner, {
             transform: [
-              { translateX: add(translationX, offset) },
+              { translateX: peekPosition },
             ],
           }]}>
           </Animated.View>
