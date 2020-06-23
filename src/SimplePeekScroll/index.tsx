@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export const PeekScroll = () => {
+export const SimplePeekScroll = () => {
   const [ left, setLeft ] = useState<0 | 1>(0)
 
   const transitionSlide = multiply(useSpringTransition(left, {}), 400)

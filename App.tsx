@@ -1,8 +1,8 @@
 import React from 'react';
-import { PeekScroll } from './src'
+import { SimplePeekScroll } from './src'
 
 export default function App() {
   return ( 
-    <PeekScroll />
+    <SimplePeekScroll />
   )
 }
