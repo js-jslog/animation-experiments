@@ -1,7 +1,8 @@
 import React, { useState } from "react"
-import { Button, StyleSheet, View } from "react-native"
-import Animated, { multiply } from "react-native-reanimated"
-import {useSpringTransition} from "react-native-redash"
+import { Button, StyleSheet } from "react-native"
+import Animated, { multiply, Value, event, useCode, cond, eq, set } from "react-native-reanimated"
+import {withSpringTransition} from "react-native-redash"
+import {PanGestureHandler, State} from "react-native-gesture-handler"
 
 const styles = StyleSheet.create({
   page: {
@@ -27,21 +28,34 @@ const styles = StyleSheet.create({
 })
 
 export const SimplePeekScroll = () => {
-  const [ left, setLeft ] = useState<0 | 1>(0)
+  const rightSide = new Value<0|1>(0)
+  const state = new Value(State.UNDETERMINED)
+  const handleGestureStateChange = event([{
+    nativeEvent: {
+      state,
+    }
+  }])
 
-  const transitionSlide = multiply(useSpringTransition(left, {}), 400)
+  useCode(() => [
+    cond(eq(state, State.END), 
+         cond(eq(rightSide, 0), set(rightSide, 1), set(rightSide, 0))
+        )
+  ], [state])
+
+  const transitionSlide = multiply(withSpringTransition(rightSide, {}), 400)
 
   return (
-    <View style={styles.page}>
-      <View style={styles.outer}>
-        <Animated.View style={[styles.inner, {
+    <PanGestureHandler onHandlerStateChange={handleGestureStateChange}>
+      <Animated.View style={styles.page}>
+        <Animated.View style={styles.outer}>
+          <Animated.View style={[styles.inner, {
             transform: [
               { translateX: transitionSlide },
             ],
           }]}>
+          </Animated.View>
         </Animated.View>
-      </View>
-      <Button title='test' onPress={(): void => { left === 0 ? setLeft(1) : setLeft(0) }} />
-    </View>
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
